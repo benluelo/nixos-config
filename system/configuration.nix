@@ -134,11 +134,11 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.11"; # Did you read the comment?
 
-  system.nssDatabases.hosts = lib.mkForce [
-    "resolve [!UNAVAIL=return]" 
-    "dns"
-    "mymachines"
-    "files"
-    "myhostname"
-   ];
+  # system.nssDatabases.hosts = lib.mkForce [
+  #   "resolve [!UNAVAIL=return]" 
+  #   "dns"
+  #   "mymachines"
+  #   "files"
+  #   "myhostname"
+  #  ];
 }
