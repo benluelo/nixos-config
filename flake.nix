@@ -25,16 +25,17 @@
 
         modules = [
           ./system/configuration.nix
-          # home-manager.nixosModules.home-manager {
-          #   home-manager = {
-          #     useGlobalPkgs = true;
-          #     useUserPackages = true;
-          #     users.ben = import ./home.nix;
-          #   };
+          ./system/networking.nix
+          home-manager.nixosModules.home-manager {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.ben = {imports = [ ./home-modules/git.nix]};
+            };
 
-          #   # Optionally, use home-manager.extraSpecialArgs to pass
-          #   # arguments to home.nix
-          # }
+            # Optionally, use home-manager.extraSpecialArgs to pass
+            # arguments to home.nix
+          }
         ];
       };
     };
