@@ -3,8 +3,13 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {url = "github:nix-community/home-manager";
+    inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    alejandra = {url = "github:kamadorueda/alejandra/3.0.0";
+    inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ nixpkgs, home-manager, ... }:
@@ -24,13 +29,13 @@
         inherit system;
 
         modules = [
-          ./system/configuration.nix
-          ./system/networking.nix
+          ./modules/configuration.nix
+          ./modules/networking.nix
           home-manager.nixosModules.home-manager {
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.ben = {imports = [ ./home-modules/git.nix]};
+              users.ben = {imports = [ ./home-modules/git.nix ./home-modules/misc.nix];};
             };
 
             # Optionally, use home-manager.extraSpecialArgs to pass

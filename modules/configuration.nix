@@ -78,6 +78,7 @@
       discord
       _1password-gui
       easyeffects
+      tree
       # thunderbird
     ];
   };

@@ -8,7 +8,7 @@
     
     signing = {
       signByDefault = true;
-      key = "sk-ecdsa-sha2-nistp256@openssh.com AAAAInNrLWVjZHNhLXNoYTItbmlzdHAyNTZAb3BlbnNzaC5jb20AAAAIbmlzdHAyNTYAAABBBEuguFe5RLXSCgHUiwQ8WodII8gXcg0p1y19jcuY86pCFC8VuI1EJKFDhhEa8F79kLsgJK6VB29dsYVw1TKbVd8AAAAEc3NoOg== ben@nixos";
+      key = "sk-ecdsa-sha2-nistp256@openssh.com AAAAInNrLWVjZHNhLXNoYTItbmlzdHAyNTZAb3BlbnNzaC5jb20AAAAIbmlzdHAyNTYAAABBBEuguFe5RLXSCgHUiwQ8WodII8gXcg0p1y19jcuY86pCFC8VuI1EJKFDhhEa8F79kLsgJK6VB29dsYVw1TKbVd8AAAAEc3NoOg==";
     };
     
     extraConfig = {
