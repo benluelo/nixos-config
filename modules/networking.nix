@@ -1,8 +1,9 @@
-
-{ config, lib, pkgs, ... }:
-
 {
-	
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -12,7 +13,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-  networking.nameservers = [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
+  networking.nameservers = ["1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001"];
   networking.firewall.enable = false;
   # networking.useDHCP = true;
 }

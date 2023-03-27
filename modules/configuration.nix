@@ -1,31 +1,31 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   nix.package = pkgs.nixUnstable;
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader.
 
   boot.loader = {
     systemd-boot.enable = true;
-  
+
     efi = {
       canTouchEfiVariables = true;
       efiSysMountPoint = "/boot/efi";
     };
   };
-
-  
 
   # Set your time zone.
   time.timeZone = "America/Toronto";
@@ -35,7 +35,7 @@
 
   services.xserver = {
     # Enable the X11 windowing system.
-    enable = true; 
+    enable = true;
 
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
@@ -72,7 +72,7 @@
   users.users.ben = {
     isNormalUser = true;
     description = "Ben Luelo";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel"];
     packages = with pkgs; [
       firefox
       discord
@@ -126,7 +126,7 @@
 
   # system.nssDatabases.hosts = lib.mkForce [
   #   "files" "mdns4_minimal [NOTFOUND=return]" "dns"
-  #   # "resolve [!UNAVAIL=return]" 
+  #   # "resolve [!UNAVAIL=return]"
   #   # "dns"
   #   # "mymachines"
   #   # "files"
