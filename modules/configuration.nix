@@ -78,7 +78,6 @@
       discord
       _1password-gui
       easyeffects
-      tree
       # thunderbird
     ];
   };
@@ -91,6 +90,8 @@
   environment.systemPackages = with pkgs; [
     # vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     # wget
+    tree
+    lazygit
     git
     kitty
     kitty-themes

@@ -8,48 +8,51 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    alejandra = {
-      url = "github:kamadorueda/alejandra/3.0.0";
+    nixpkgs-fmt = {
+      url = "github:nix-community/nixpkgs-fmt";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs = inputs @ {
-    nixpkgs,
-    home-manager,
-    ...
-  }: let
-    system = "x86_64-linux";
+  outputs = inputs@{ nixpkgs, home-manager, ... }:
+    let
+      system = "x86_64-linux";
 
-    pkgs = import nixpkgs {
-      inherit system;
-
-      config = {allowUnfree = true;};
-    };
-
-    lib = nixpkgs.lib;
-  in {
-    formatter.${system} = inputs.alejandra.defaultPackage.${system};
-    nixosConfigurations = {
-      nixos = lib.nixosSystem {
+      pkgs = import nixpkgs {
         inherit system;
 
-        modules = [
-          ./modules/configuration.nix
-          ./modules/networking.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.ben = {imports = [./home-modules/git.nix ./home-modules/misc.nix];};
-            };
+        config = { allowUnfree = true; };
+      };
 
-            # Optionally, use home-manager.extraSpecialArgs to pass
-            # arguments to home.nix
-          }
-        ];
+      lib = nixpkgs.lib;
+    in
+    {
+      formatter.${system} = inputs.nixpkgs-fmt.defaultPackage.${system};
+      nixosConfigurations = {
+        nixos = lib.nixosSystem {
+          inherit system;
+
+          modules = [
+            ./modules/configuration.nix
+            ./modules/networking.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.ben = {
+                  imports = [
+                    ./home-modules/git.nix
+                    ./home-modules/misc.nix
+                  ];
+                };
+              };
+
+              # Optionally, use home-manager.extraSpecialArgs to pass
+              # arguments to home.nix
+            }
+          ];
+        };
       };
     };
-  };
 }
