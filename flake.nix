@@ -28,6 +28,7 @@
     in
     {
       formatter.${system} = inputs.nixpkgs-fmt.defaultPackage.${system};
+
       nixosConfigurations = {
         nixos = lib.nixosSystem {
           inherit system;

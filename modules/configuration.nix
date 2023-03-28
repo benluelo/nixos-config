@@ -1,15 +1,16 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }: {
   nix.package = pkgs.nixUnstable;
 
-  nix.settings.experimental-features = ["nix-command" "flakes"];
+  virtualisation.docker.enable = true;
+
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   imports = [
     # Include the results of the hardware scan.
@@ -28,7 +29,7 @@
   };
 
   # Set your time zone.
-  time.timeZone = "America/Toronto";
+  time.timeZone = null;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.UTF-8";
@@ -72,7 +73,7 @@
   users.users.ben = {
     isNormalUser = true;
     description = "Ben Luelo";
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       firefox
       discord
@@ -90,12 +91,15 @@
   environment.systemPackages = with pkgs; [
     # vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     # wget
+    element-desktop
     tree
     lazygit
     git
     kitty
     kitty-themes
     helix
+    docker
+    docker-client
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
