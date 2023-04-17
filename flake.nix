@@ -12,6 +12,8 @@
       url = "github:nix-community/nixpkgs-fmt";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    helix = {url = "github:helix-editor/helix";};
   };
 
   outputs = inputs@{ nixpkgs, home-manager, ... }:
@@ -44,9 +46,13 @@
                 users.ben = {
                   imports = [
                     ./home-modules/git.nix
+                    ./home-modules/helix.nix
                     ./home-modules/misc.nix
+                    ./home-modules/kitty.nix
                   ];
                 };
+
+                extraSpecialArgs = { inherit inputs; };
               };
 
               # Optionally, use home-manager.extraSpecialArgs to pass
