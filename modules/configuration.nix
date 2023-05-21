@@ -48,8 +48,8 @@
       ];
     };
   };
-  # Bootloader.
 
+  # Bootloader.
   boot.loader = {
     systemd-boot.enable = true;
 
@@ -68,7 +68,7 @@
   services = {
     blueman.enable = true;
 
-    # ivpn.enable = true;
+    ivpn.enable = true;
 
     xserver = {
       # Enable the X11 windowing system.

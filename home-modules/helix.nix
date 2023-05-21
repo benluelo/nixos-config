@@ -33,22 +33,24 @@
       };
     };
 
-    languages = [
-      {
-        name = "rust";
-        config = {
-          checkOnSave.command = "clippy";
-          # Careful! If you enable this, then a lot of errors
-          # will no longer show up in Helix. Do not enable it.
-          # cargo.allFeatures = true; <- do NOT enable me
-        };
-      }
-      {
-        name = "nix";
-        config = {
-          auto-format = true;
-        };
-      }
-    ];
+    languages = {
+      language = [
+        {
+          name = "rust";
+          config = {
+            checkOnSave.command = "clippy";
+            # Careful! If you enable this, then a lot of errors
+            # will no longer show up in Helix. Do not enable it.
+            # cargo.allFeatures = true; <- do NOT enable me
+          };
+        }
+        {
+          name = "nix";
+          config = {
+            auto-format = true;
+          };
+        }
+      ];
+    };
   };
 }
