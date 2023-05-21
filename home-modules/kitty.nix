@@ -11,7 +11,7 @@
 
     font = {
       name = "JetBrains Mono Nerd Font";
-      size = 12;
+      size = 10;
     };
 
     # keybindings = {};
