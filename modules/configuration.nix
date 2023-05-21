@@ -1,42 +1,53 @@
 # Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
+# your system. Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 { config
 , lib
 , pkgs
 , ...
 }: {
-  nix.package = pkgs.nixUnstable;
-
-  virtualisation.docker.enable = true;
-
-  nix = {
-    settings = {
-      trusted-users = [ "root" "ben" ];
-      experimental-features = [ "nix-command" "flakes" ];
-      substituters = [
-        "https://nix-community.cachix.org"
-        "https://pre-commit-hooks.cachix.org"
-        "https://cosmos.cachix.org"
-      ];
-      trusted-substituters = [
-        "https://nix-community.cachix.org"
-        "https://pre-commit-hooks.cachix.org"
-        "https://cosmos.cachix.org"
-      ];
-      trusted-public-keys = [
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "pre-commit-hooks.cachix.org-1:Pkk3Panw5AW24TOv6kz3PvLhlH8puAsJTBbOPmBo7Rc="
-        "cosmos.cachix.org-1:T5U9yg6u2kM48qAOXHO/ayhO8IWFnv0LOhNcq0yKuR8="
-      ];
-    };
-  };
-
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
 
+  virtualisation.docker.enable = true;
+
+  fonts.fonts = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    ibm-plex
+    fira-code
+    fira-code-symbols
+    jetbrains-mono
+    (pkgs.nerdfonts.override {
+      fonts = [ "JetBrainsMono" ];
+    })
+  ];
+
+  nix = {
+    package = pkgs.nixUnstable;
+    settings = {
+      trusted-users = [ "root" "ben" ];
+      experimental-features = [ "nix-command" "flakes" ];
+      substituters = [
+        "https://nix-community.cachix.org"
+        # "https://pre-commit-hooks.cachix.org"
+        # "https://cosmos.cachix.org"
+      ];
+      trusted-substituters = [
+        "https://nix-community.cachix.org"
+        # "https://pre-commit-hooks.cachix.org"
+        # "https://cosmos.cachix.org"
+      ];
+      trusted-public-keys = [
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        # "pre-commit-hooks.cachix.org-1:Pkk3Panw5AW24TOv6kz3PvLhlH8puAsJTBbOPmBo7Rc="
+        # "cosmos.cachix.org-1:T5U9yg6u2kM48qAOXHO/ayhO8IWFnv0LOhNcq0yKuR8="
+      ];
+    };
+  };
   # Bootloader.
 
   boot.loader = {
@@ -54,20 +65,26 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.UTF-8";
 
-  services.xserver = {
-    # Enable the X11 windowing system.
-    enable = true;
+  services = {
+    blueman.enable = true;
 
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
+    # ivpn.enable = true;
 
-    # Configure keymap in X11
-    layout = "us";
-    xkbVariant = "";
+    xserver = {
+      # Enable the X11 windowing system.
+      enable = true;
+
+      displayManager.gdm.enable = true;
+      desktopManager.gnome.enable = true;
+
+      # Configure keymap in X11
+      layout = "us";
+      xkbVariant = "";
+    };
+
+    # Enable CUPS to print documents.
+    printing.enable = true;
   };
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -99,8 +116,14 @@
       discord
       _1password-gui
       easyeffects
-      # thunderbird
+      spotify
     ];
+  };
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
   # Allow unfree packages
@@ -111,6 +134,8 @@
   environment.systemPackages = with pkgs; [
     # vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     # wget
+    ivpn
+    ivpn-service
     element-desktop
     tree
     lazygit

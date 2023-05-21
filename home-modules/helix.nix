@@ -1,4 +1,4 @@
-{ inputs, pkgs, theme, ...}: 
+{ inputs, pkgs, theme, ... }:
 {
   programs.helix = {
     enable = true;
@@ -32,7 +32,7 @@
         };
       };
     };
- 
+
     languages = [
       {
         name = "rust";

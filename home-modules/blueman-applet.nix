@@ -1,0 +1,5 @@
+{ ... }: {
+  programs.blueman = {
+    enable = true;
+  };
+}
