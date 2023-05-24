@@ -75,15 +75,28 @@ in
     # };
   };
 
-  systemd.services.ivpn-connect = {
+  systemd.user.services.ivpn-connect = {
     description = "connect to the fastest ivpn server.";
     after = [ "ivpn-service.service" ];
+    wantedBy = [ "default.target" ];
     script = ''
-      echo "OOGABOOGA"
+      ${pkgs.ivpn}/bin/ivpn autoconnect -on_launch on
 
-      ${pkgs.ivpn}/bin/ivpn disconnect
+      STATUS=$(${pkgs.ivpn}/bin/ivpn status | head -n 1 | cut -d ":" -f2 | tr -d " ")
 
-      echo "disconnected"
+      case $STATUS in
+        "CONNECTED")
+          echo "already connected; disconnecting..."
+          ${pkgs.ivpn}/bin/ivpn disconnect
+          ;;
+        "DISCONNECTED")
+          echo "already disconnected"
+          ;;
+        *)
+          echo "unknown ivpn status: $STATUS"
+          exit 1
+          ;;
+      esac
 
       FASTEST=$(${pkgs.ivpn}/bin/ivpn servers -ping -p wg | tail -1 | cut -d "|" -f2 | tr -d ' ')
 
