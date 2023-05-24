@@ -38,6 +38,7 @@
           modules = [
             ./modules/configuration.nix
             ./modules/networking.nix
+            # ./modules/wg-config.nix
             home-manager.nixosModules.home-manager
             {
               home-manager = {

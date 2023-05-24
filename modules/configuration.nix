@@ -112,11 +112,13 @@
     description = "Ben Luelo";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
+      signal-desktop
       firefox
       discord
       _1password-gui
       easyeffects
       spotify
+      element-desktop
     ];
   };
 
@@ -136,7 +138,6 @@
     # wget
     ivpn
     ivpn-service
-    element-desktop
     tree
     lazygit
     git
