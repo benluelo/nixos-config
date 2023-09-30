@@ -13,6 +13,8 @@
 
   virtualisation.docker.enable = true;
 
+  hardware.ledger.enable = true;
+
   fonts.fonts = with pkgs; [
     noto-fonts
     noto-fonts-cjk
@@ -26,23 +28,54 @@
     })
   ];
 
+  programs.ssh.extraConfig = ''
+    Host eu.nixbuild.net
+      PubkeyAcceptedKeyTypes ssh-ed25519
+      ServerAliveInterval 60
+      IPQoS throughput
+      IdentityFile /path/to/your/private/key
+  '';
+
+  programs.ssh.knownHosts = {
+    nixbuild = {
+      hostNames = [ "eu.nixbuild.net" ];
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPIQCZc54poJ8vqawd8TraNryQeJnvH1eLpIDgbiqymM";
+    };
+  };
+
   nix = {
+  };
+
+  nix = {
+    # nixbuild
+    distributedBuilds = true;
+    buildMachines = [
+      { hostName = "eu.nixbuild.net";
+        system = "x86_64-linux";
+        maxJobs = 100;
+        supportedFeatures = [ "benchmark" "big-parallel" ];
+      }
+
+    ];
     package = pkgs.nixUnstable;
     settings = {
       trusted-users = [ "root" "ben" ];
       experimental-features = [ "nix-command" "flakes" ];
       substituters = [
         "https://nix-community.cachix.org"
+        "https://union.cachix.org"
         # "https://pre-commit-hooks.cachix.org"
         # "https://cosmos.cachix.org"
       ];
       trusted-substituters = [
         "https://nix-community.cachix.org"
+        "https://union.cachix.org"
         # "https://pre-commit-hooks.cachix.org"
         # "https://cosmos.cachix.org"
       ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "union.cachix.org-1:TV9o8jexzNVbM1VNBOq9fu8NK+hL6ZhOyOh0quATy+M="
         # "pre-commit-hooks.cachix.org-1:Pkk3Panw5AW24TOv6kz3PvLhlH8puAsJTBbOPmBo7Rc="
         # "cosmos.cachix.org-1:T5U9yg6u2kM48qAOXHO/ayhO8IWFnv0LOhNcq0yKuR8="
       ];
@@ -66,6 +99,57 @@
   i18n.defaultLocale = "en_CA.UTF-8";
 
   services = {
+    grafana = {
+      enable = true;
+      settings = {
+        server = {
+          # Listening Address
+          http_addr = "127.0.0.1";
+          # and Port
+          http_port = 3000;
+          # # Grafana needs to know on which domain and URL it's running
+          # domain = "your.domain";
+          # root_url = "https://your.domain/grafana/"; # Not needed if it is `https://your.domain/`
+        };
+      };
+    };
+    postgresql = let
+      # The postgresql pkgs has to be taken from the
+      # postgresql package used, so the extensions
+      # are built for the correct postgresql version.
+      postgresqlPackages = config.services.postgresql.package.pkgs;
+    in {
+      # https://www.postgresql.org/docs/current/auth-pg-hba-conf.html
+      authentication = pkgs.lib.mkOverride 10 ''
+        #type database  user  auth-method
+        local all       all   trust
+        #type database  user  address     auth-method
+        host  all       all   all         md5
+      '';
+      enable = true;
+      extraPlugins = [ postgresqlPackages.timescaledb ];
+      settings.shared_preload_libraries = "timescaledb";
+    };
+
+    mysql = {
+      enable = true;
+      package = pkgs.mysql80;
+    };
+
+    udev = {
+      enable = true;
+      extraRules = let
+        # UB Funkeys
+        MegaByte = {
+          idVendor = "0e4c";
+          idProduct = "7288";
+        };
+      in ''
+        SUBSYSTEM=="usb",        ATTRS{idVendor}=="${MegaByte.idVendor}", ATTRS{idProduct}=="${MegaByte.idProduct}", MODE="0666"
+        SUBSYSTEM=="usb_device", ATTRS{idVendor}=="${MegaByte.idVendor}", ATTRS{idProduct}=="${MegaByte.idProduct}", MODE="0666"
+      '';
+    };
+
     blueman.enable = true;
 
     ivpn.enable = true;
@@ -84,6 +168,10 @@
 
     # Enable CUPS to print documents.
     printing.enable = true;
+  };
+
+  hardware.system76 = {
+    enableAll = true;
   };
 
   # Enable sound with pipewire.
@@ -110,9 +198,14 @@
   users.users.ben = {
     isNormalUser = true;
     description = "Ben Luelo";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "plugdev" ];
     packages = with pkgs; [
-      signal-desktop
+      ledger-live-desktop
+      # linuxKernel.packages.${kernel.version}.system76-power
+      # linuxKernel.packages.${kernel.version}.system76
+      # linuxKernel.packages.${kernel.version}.system76
+      dbeaver
+      signal-desktop-beta
       firefox
       discord
       _1password-gui
@@ -122,6 +215,8 @@
     ];
   };
 
+  programs.nix-ld.enable = true;
+
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
@@ -129,7 +224,12 @@
   };
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    permittedInsecurePackages = [
+      "openssl-1.1.1t"
+    ];
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -144,6 +244,8 @@
     helix
     docker
     docker-client
+    ((import ../pkgs/gdlauncher.nix) pkgs)
+    # ((import ../pkgs/modrinth-app.nix) pkgs)
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

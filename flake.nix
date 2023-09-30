@@ -45,11 +45,13 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 users.ben = {
+                  nixpkgs.overlays = [ (import ./pkgs) ];
                   imports = [
                     ./home-modules/git.nix
                     ./home-modules/helix.nix
                     ./home-modules/misc.nix
                     ./home-modules/kitty.nix
+                    # ./home-modules/gdlauncher.nix
                   ];
                 };
 

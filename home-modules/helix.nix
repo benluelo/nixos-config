@@ -38,6 +38,10 @@
         rust-analyzer = {
           config = {
             checkOnSave.command = "clippy";
+            imports = {
+              granularity.group = "crate";
+              prefix = "crate";
+            };
             # Careful! If you enable this, then a lot of errors
             # will no longer show up in Helix. Do not enable it.
             # cargo.allFeatures = true; <- do NOT enable me
