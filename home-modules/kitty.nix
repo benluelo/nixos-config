@@ -5,7 +5,7 @@
     package = pkgs.kitty;
 
     settings = {
-      scrollback_lines = 100000000;
+      scrollback_lines = 50000;
       cursor_blink_interval = 0;
       allow_remote_control = true;
     };
