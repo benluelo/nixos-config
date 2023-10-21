@@ -11,6 +11,14 @@
     ./hardware-configuration.nix
   ];
 
+  # Enable OpenGL
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+  };
+
+  };
   virtualisation.docker.enable = true;
 
   hardware.ledger.enable = true;
@@ -88,7 +96,7 @@
 
     efi = {
       canTouchEfiVariables = true;
-      efiSysMountPoint = "/boot/efi";
+      efiSysMountPoint = "/boot";
     };
   };
 
@@ -155,6 +163,8 @@
     ivpn.enable = true;
 
     xserver = {
+      # Load nvidia driver for Xorg and Wayland
+      videoDrivers = ["nvidia"];
       # Enable the X11 windowing system.
       enable = true;
 
@@ -247,6 +257,10 @@
     ((import ../pkgs/gdlauncher.nix) pkgs)
     # ((import ../pkgs/modrinth-app.nix) pkgs)
   ];
+
+  environment.variables = {
+    EDITOR = "hx";
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
