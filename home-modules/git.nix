@@ -2,7 +2,7 @@
   programs.git = {
     enable = true;
     userName = "benluelo";
-    userEmail = "benluelo@hotmail.com";
+    userEmail = "git@luelo.dev";
     lfs.enable = true;
 
     signing = {
@@ -13,6 +13,7 @@
     extraConfig = {
       color.ui = true;
       github.user = "benluelo";
+      url."git@github.com:".insteadOf = "https://github.com/";
       gpg.format = "ssh";
       commit.gpgsign = true;
     };
