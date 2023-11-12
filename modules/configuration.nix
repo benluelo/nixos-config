@@ -18,7 +18,6 @@
     driSupport32Bit = true;
   };
 
-  };
   virtualisation.docker.enable = true;
 
   hardware.ledger.enable = true;
@@ -49,9 +48,6 @@
       hostNames = [ "eu.nixbuild.net" ];
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPIQCZc54poJ8vqawd8TraNryQeJnvH1eLpIDgbiqymM";
     };
-  };
-
-  nix = {
   };
 
   nix = {
@@ -91,12 +87,15 @@
   };
 
   # Bootloader.
-  boot.loader = {
-    systemd-boot.enable = true;
+  boot = {
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
+    loader = {
+      systemd-boot.enable = true;
 
-    efi = {
-      canTouchEfiVariables = true;
-      efiSysMountPoint = "/boot";
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot";
+      };
     };
   };
 
@@ -163,8 +162,8 @@
     ivpn.enable = true;
 
     xserver = {
-      # Load nvidia driver for Xorg and Wayland
-      videoDrivers = ["nvidia"];
+      # # Load nvidia driver for Xorg and Wayland
+      # videoDrivers = ["nvidia"];
       # Enable the X11 windowing system.
       enable = true;
 
@@ -244,6 +243,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    gnumake
+    cntr
     # vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     # wget
     ivpn
