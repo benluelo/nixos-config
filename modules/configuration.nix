@@ -9,6 +9,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./fonts.nix
   ];
 
   # Enable OpenGL
@@ -21,19 +22,6 @@
   virtualisation.docker.enable = true;
 
   hardware.ledger.enable = true;
-
-  fonts.fonts = with pkgs; [
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    ibm-plex
-    fira-code
-    fira-code-symbols
-    jetbrains-mono
-    (pkgs.nerdfonts.override {
-      fonts = [ "JetBrainsMono" ];
-    })
-  ];
 
   programs.ssh.extraConfig = ''
     Host eu.nixbuild.net
