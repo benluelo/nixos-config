@@ -142,6 +142,7 @@
             ./modules/configuration.nix
             ./modules/networking.nix
             ./modules/users.nix
+            ./modules/nix.nix
             home-manager.nixosModules.home-manager
             hm
           ];
@@ -152,6 +153,7 @@
           modules = [
             ./orb-modules/configuration.nix
             ./modules/users.nix
+            ./modules/nix.nix
             home-manager.nixosModules.home-manager
             hm
             {
