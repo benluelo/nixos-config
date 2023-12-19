@@ -8,7 +8,7 @@ pkgs.stdenv.mkDerivation rec {
     sha256 = "sha256-KzVCzZe6+IXnpag/ngdOvdzHg/szX/gJLNDhSfUvD8Y=";
   };
 
-  buildInputs = [pkgs.dpkg pkgs.tree];
+  buildInputs = [ pkgs.dpkg pkgs.tree ];
 
   sourceRoot = ".";
   unpackCmd = "dpkg-deb -x $src .";
@@ -21,23 +21,25 @@ pkgs.stdenv.mkDerivation rec {
     mkdir -p $out/bin
     cp  usr/bin/aptakube $out/bin
   '';
-  preFixup = let
-    # found all these libs with `patchelf --print-required` and added them so that they are dynamically linked
-    libPath = lib.makeLibraryPath [
-      pkgs.webkitgtk
-      pkgs.gtk3
-      pkgs.pango
-      pkgs.cairo
-      pkgs.gdk-pixbuf
-      pkgs.glib
-      pkgs.libsoup
-    ];
-  in ''
-    patchelf \
-      --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
-      --set-rpath "${libPath}" \
-      $out/bin/aptakube
-  '';
+  preFixup =
+    let
+      # found all these libs with `patchelf --print-required` and added them so that they are dynamically linked
+      libPath = lib.makeLibraryPath [
+        pkgs.webkitgtk
+        pkgs.gtk3
+        pkgs.pango
+        pkgs.cairo
+        pkgs.gdk-pixbuf
+        pkgs.glib
+        pkgs.libsoup
+      ];
+    in
+    ''
+      patchelf \
+        --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
+        --set-rpath "${libPath}" \
+        $out/bin/aptakube
+    '';
 
   meta = with lib; {
     homepage = "https://modrinth.com/app";

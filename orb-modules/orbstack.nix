@@ -8,11 +8,13 @@ with lib;
 
 {
   # sudoers
-  security.sudo.extraRules= [
-    { users = [ "ben" ];
+  security.sudo.extraRules = [
+    {
+      users = [ "ben" ];
       commands = [
-        { command = "ALL";
-          options= [ "NOPASSWD" ];
+        {
+          command = "ALL";
+          options = [ "NOPASSWD" ];
         }
       ];
     }

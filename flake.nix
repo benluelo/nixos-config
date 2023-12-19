@@ -93,7 +93,7 @@
         nix.settings.experimental-features = "nix-command flakes";
 
         # Create /etc/zshrc that loads the nix-darwin environment.
-        programs.bash.enable = true;  # default shell on catalina
+        programs.bash.enable = true; # default shell on catalina
         # programs.fish.enable = true;
 
         # Set Git commit hash for darwin-version.
@@ -133,6 +133,7 @@
     in
     {
       formatter.${system} = inputs.nixpkgs-fmt.defaultPackage.${system};
+      formatter."aarch64-linux" = inputs.nixpkgs-fmt.defaultPackage."aarch64-linux";
 
       nixosConfigurations = {
         nixos = lib.nixosSystem {
@@ -169,7 +170,7 @@
         modules = [
           darwinConfiguration
           home-manager.darwinModules.home-manager
-          hm 
+          hm
           nix-homebrew.darwinModules.nix-homebrew
           {
             nix-homebrew = {

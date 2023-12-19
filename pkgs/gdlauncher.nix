@@ -1,6 +1,6 @@
 { appimageTools, ... }:
 let
-	version = "v1.1.30";
+  version = "v1.1.30";
 in
 appimageTools.wrapType1 {
   name = "gdlauncher";

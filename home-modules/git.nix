@@ -17,6 +17,7 @@
       color.ui = true;
       github.user = "benluelo";
       url."git@github.com:".insteadOf = "https://github.com/";
+      gpg.format = "ssh";
       # core.ignorecase = false;
       # gpg = {
       #   format = "ssh";

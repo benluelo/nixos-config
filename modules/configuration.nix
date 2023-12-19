@@ -72,23 +72,25 @@
         };
       };
     };
-    postgresql = let
-      # The postgresql pkgs has to be taken from the
-      # postgresql package used, so the extensions
-      # are built for the correct postgresql version.
-      postgresqlPackages = config.services.postgresql.package.pkgs;
-    in {
-      # https://www.postgresql.org/docs/current/auth-pg-hba-conf.html
-      authentication = pkgs.lib.mkOverride 10 ''
-        #type database  user  auth-method
-        local all       all   trust
-        #type database  user  address     auth-method
-        host  all       all   all         md5
-      '';
-      enable = true;
-      extraPlugins = [ postgresqlPackages.timescaledb ];
-      settings.shared_preload_libraries = "timescaledb";
-    };
+    postgresql =
+      let
+        # The postgresql pkgs has to be taken from the
+        # postgresql package used, so the extensions
+        # are built for the correct postgresql version.
+        postgresqlPackages = config.services.postgresql.package.pkgs;
+      in
+      {
+        # https://www.postgresql.org/docs/current/auth-pg-hba-conf.html
+        authentication = pkgs.lib.mkOverride 10 ''
+          #type database  user  auth-method
+          local all       all   trust
+          #type database  user  address     auth-method
+          host  all       all   all         md5
+        '';
+        enable = true;
+        extraPlugins = [ postgresqlPackages.timescaledb ];
+        settings.shared_preload_libraries = "timescaledb";
+      };
 
     mysql = {
       enable = true;
@@ -97,16 +99,18 @@
 
     udev = {
       enable = true;
-      extraRules = let
-        # UB Funkeys
-        MegaByte = {
-          idVendor = "0e4c";
-          idProduct = "7288";
-        };
-      in ''
-        SUBSYSTEM=="usb",        ATTRS{idVendor}=="${MegaByte.idVendor}", ATTRS{idProduct}=="${MegaByte.idProduct}", MODE="0666"
-        SUBSYSTEM=="usb_device", ATTRS{idVendor}=="${MegaByte.idVendor}", ATTRS{idProduct}=="${MegaByte.idProduct}", MODE="0666"
-      '';
+      extraRules =
+        let
+          # UB Funkeys
+          MegaByte = {
+            idVendor = "0e4c";
+            idProduct = "7288";
+          };
+        in
+        ''
+          SUBSYSTEM=="usb",        ATTRS{idVendor}=="${MegaByte.idVendor}", ATTRS{idProduct}=="${MegaByte.idProduct}", MODE="0666"
+          SUBSYSTEM=="usb_device", ATTRS{idVendor}=="${MegaByte.idVendor}", ATTRS{idProduct}=="${MegaByte.idProduct}", MODE="0666"
+        '';
     };
 
     blueman.enable = true;

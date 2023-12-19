@@ -1,4 +1,4 @@
 { pkgs, ... }:
 {
-	home.packages = [ pkgs.gdlauncher ];
+  home.packages = [ pkgs.gdlauncher ];
 }

@@ -1,4 +1,4 @@
 self: super:
 {
-  gdlauncher = super.callPackage ./gdlauncher.nix {};
+  gdlauncher = super.callPackage ./gdlauncher.nix { };
 }
