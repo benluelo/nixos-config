@@ -141,6 +141,15 @@
             hm
           ];
         };
+        orb = lib.nixosSystem {
+          system = "aarch64-linux";
+
+          modules = [
+            ./orb-modules/configuration.nix
+            # home-manager.nixosModules.home-manager
+            # hm
+          ];
+        };
       };
 
       # Build darwin flake using:
