@@ -192,25 +192,6 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.ben = {
-    isNormalUser = true;
-    description = "Ben Luelo";
-    extraGroups = [ "networkmanager" "wheel" "docker" "plugdev" ];
-    packages = with pkgs; [
-      ledger-live-desktop
-      # linuxKernel.packages.${kernel.version}.system76-power
-      # linuxKernel.packages.${kernel.version}.system76
-      # linuxKernel.packages.${kernel.version}.system76
-      dbeaver
-      signal-desktop-beta
-      firefox
-      discord
-      _1password-gui
-      easyeffects
-      spotify
-      element-desktop
-    ];
-  };
 
   programs.nix-ld.enable = true;
 

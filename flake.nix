@@ -108,6 +108,10 @@
         nixpkgs.config.allowUnfree = true;
       };
 
+      moduleArgs = {
+        signingkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGl4qAz9DcqO1JOSBWIatv79lHLZIfy+x6ZP2thMviI/";
+      };
+
       hm = {
         home-manager = {
           useGlobalPkgs = true;
@@ -123,7 +127,7 @@
             ];
           };
 
-          extraSpecialArgs = { inherit inputs; };
+          extraSpecialArgs = { inherit inputs; } // moduleArgs;
         };
       };
     in
@@ -137,6 +141,7 @@
           modules = [
             ./modules/configuration.nix
             ./modules/networking.nix
+            ./modules/users.nix
             home-manager.nixosModules.home-manager
             hm
           ];
@@ -146,8 +151,12 @@
 
           modules = [
             ./orb-modules/configuration.nix
-            # home-manager.nixosModules.home-manager
-            # hm
+            ./modules/users.nix
+            home-manager.nixosModules.home-manager
+            hm
+            {
+              _module.args = moduleArgs;
+            }
           ];
         };
       };

@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, signingkey, ... }: {
   programs.git = {
     enable = true;
     userName = "benluelo";
@@ -12,7 +12,7 @@
 
     extraConfig = {
       user = {
-        signingkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGl4qAz9DcqO1JOSBWIatv79lHLZIfy+x6ZP2thMviI/";
+        inherit signingkey;
       };
       color.ui = true;
       github.user = "benluelo";
