@@ -18,10 +18,24 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
+    homebrew-bundle = {
+      url = "github:homebrew/homebrew-bundle";
+      flake = false;
+    };
+
     helix = { url = "github:helix-editor/helix"; };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, nix-darwin, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, nix-darwin, nix-homebrew, homebrew-core, homebrew-cask, homebrew-bundle, ... }:
     let
       system = "x86_64-linux";
 
@@ -52,6 +66,25 @@
           };
         };
 
+        homebrew = {
+          enable = true;
+          onActivation = {
+            cleanup = "zap";
+            autoUpdate = false;
+            upgrade = false;
+          };
+          casks = [
+            "steam"
+            "1password"
+            "1password-cli"
+          ];
+        };
+
+        users.users.ben = {
+          home = "/Users/ben";
+          shell = pkgs.bash;
+        };
+
         # Auto upgrade nix package and the daemon service.
         services.nix-daemon.enable = true;
         # nix.package = pkgs.nix;
@@ -72,6 +105,26 @@
 
         # The platform the configuration will be used on.
         nixpkgs.hostPlatform = "aarch64-darwin";
+        nixpkgs.config.allowUnfree = true;
+      };
+
+      hm = {
+        home-manager = {
+          useGlobalPkgs = true;
+          useUserPackages = true;
+          users.ben = {
+            nixpkgs.overlays = pkgs.lib.optionals pkgs.stdenv.isLinux [ (import ./pkgs) ];
+            imports = [
+              ./home-modules/git.nix
+              ./home-modules/helix.nix
+              ./home-modules/misc.nix
+              ./home-modules/kitty.nix
+              # ./home-modules/gdlauncher.nix
+            ];
+          };
+
+          extraSpecialArgs = { inherit inputs; };
+        };
       };
     in
     {
@@ -84,29 +137,8 @@
           modules = [
             ./modules/configuration.nix
             ./modules/networking.nix
-            # ./modules/wg-config.nix
             home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                users.ben = {
-                  nixpkgs.overlays = [ (import ./pkgs) ];
-                  imports = [
-                    ./home-modules/git.nix
-                    ./home-modules/helix.nix
-                    ./home-modules/misc.nix
-                    ./home-modules/kitty.nix
-                    # ./home-modules/gdlauncher.nix
-                  ];
-                };
-
-                extraSpecialArgs = { inherit inputs; };
-              };
-
-              # Optionally, use home-manager.extraSpecialArgs to pass
-              # arguments to home.nix
-            }
+            hm
           ];
         };
       };
@@ -114,7 +146,36 @@
       # Build darwin flake using:
       # $ darwin-rebuild build --flake .#mac
       darwinConfigurations."mac" = nix-darwin.lib.darwinSystem {
-        modules = [ darwinConfiguration ];
+        modules = [
+          darwinConfiguration
+          home-manager.darwinModules.home-manager
+          hm 
+          nix-homebrew.darwinModules.nix-homebrew
+          {
+            nix-homebrew = {
+              # Install Homebrew nder the default prefix
+              enable = true;
+
+              # Apple Silicon Only: Also install Homebrew under the default Intel prefix for Rosetta 2
+              enableRosetta = true;
+
+              # User owning the Homebrew prefix
+              user = "ben";
+
+              # Optional: Declarative tap management
+              taps = {
+                "homebrew/homebrew-core" = homebrew-core;
+                "homebrew/homebrew-cask" = homebrew-cask;
+                "homebrew/homebrew-bundle" = homebrew-bundle;
+              };
+
+              # Optional: Enable fully-declarative tap management
+              #
+              # With mutableTaps disabled, taps can no longer be added imperatively with `brew tap`.
+              mutableTaps = false;
+            };
+          }
+        ];
       };
 
       # Expose the package set, including overlays, for convenience.
