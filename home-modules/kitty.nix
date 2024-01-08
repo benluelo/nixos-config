@@ -15,7 +15,14 @@
       size = 10;
     };
 
-    # keybindings = {};
+    keybindings = {
+      # "kitty_mod+enter" = "launch --cwd=current --type=window";
+      # "kitty_mod+t" = "launch --cwd=current --type=tab";
+      # "kitty_mod+enter" = "new_window_with_cwd";
+      # "kitty_mod+t" = "new_tab_with_cwd";
+      "f1" = "launch --cwd=current";
+      "f2" = "launch --cwd=current --type=tab";
+    };
 
     theme = "One Dark";
 
