@@ -22,12 +22,12 @@
         format = "ssh";
         # TODO: Figure out how this works on linux
         # lol
-      } // 
-        (if pkgs.stdenv.isDarwin
-          then { ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"; }
-          else if pkgs.system == "x86_64-linux"
-          then { ssh.program = "${pkgs._1password-gui}"; }
-          else { });
+      } //
+      (if pkgs.stdenv.isDarwin
+      then { ssh.program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"; }
+      else if pkgs.system == "x86_64-linux"
+      then { ssh.program = "${pkgs._1password-gui}"; }
+      else { });
       commit.gpgsign = true;
     };
   };

@@ -15,7 +15,7 @@ with lib;
       ./orbstack.nix
     ];
 
-  networking.hostName = "nixos-orb";
+  networking.hostName = "orb";
 
   virtualisation.docker.enable = true;
 
