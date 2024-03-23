@@ -96,6 +96,7 @@
         programs.bash = {
           # default shell on catalina
           enable = true;
+          enableCompletion = true;
           # copied from https://github.com/NixOS/nixpkgs/blob/56528ee42526794d413d6f244648aaee4a7b56c0/nixos/modules/programs/bash/bash.nix#L78
           interactiveShellInit = ''
             # Provide a nice prompt if the terminal supports it.
