@@ -66,6 +66,8 @@
           };
         };
 
+        fonts.fontDir.enable = true;
+
         homebrew = {
           enable = true;
           onActivation = {

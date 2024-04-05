@@ -11,7 +11,8 @@
     };
 
     font = {
-      name = "JetBrains Mono Nerd Font";
+      # can't get nerd font to work on macos for some reason
+      name = if pkgs.stdenv.isDarwin then "JetBrains Mono" else "JetBrains Mono Nerd Font";
       size = 10;
     };
 
