@@ -95,7 +95,11 @@
         nix.settings.experimental-features = "nix-command flakes";
 
         # Create /etc/zshrc that loads the nix-darwin environment.
-        programs.bash = {
+        programs.bash =
+        let
+          prompt-color = if pkgs.stdenv.isDarwin then "1;36m" else "1;32m";
+        in
+        {
           # default shell on catalina
           enable = true;
           enableCompletion = true;
@@ -104,7 +108,7 @@
             # Provide a nice prompt if the terminal supports it.
             if [ "$TERM" != "dumb" ] || [ -n "$INSIDE_EMACS" ]; then
               PROMPT_COLOR="1;31m"
-              ((UID)) && PROMPT_COLOR="1;32m"
+              ((UID)) && PROMPT_COLOR="${prompt-color}"
               if [ -n "$INSIDE_EMACS" ]; then
                 # Emacs term mode doesn't support xterm title escape sequence (\e]0;)
                 PS1="\n\[\033[$PROMPT_COLOR\][\u@\h:\w]\\$\[\033[0m\] "
