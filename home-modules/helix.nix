@@ -2,7 +2,7 @@
 {
   programs.helix = {
     enable = true;
-    package = inputs.helix.packages.${pkgs.system}.default;
+    package = inputs.helix.packages.${pkgs.system}.helix;
 
     settings = {
       theme = "onedark";

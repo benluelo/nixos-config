@@ -72,6 +72,7 @@ with lib;
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    _1password
     kitty
     tree
     nixpkgs-fmt
@@ -95,8 +96,8 @@ with lib;
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 8545 8546 ];
+  networking.firewall.allowedUDPPorts = [ 8545 8546 ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
