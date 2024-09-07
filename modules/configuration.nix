@@ -187,7 +187,6 @@
     ivpn
     ivpn-service
     tree
-    lazygit
     git
     helix
     docker

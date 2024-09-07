@@ -2,9 +2,10 @@
 {
   users.users.ben = {
     isNormalUser = true;
-    description = "Ben Luelo";
+    description = "ben";
     extraGroups = [ "networkmanager" "wheel" "docker" "plugdev" ];
     packages = with pkgs; [
+      lazygit
       # ledger-live-desktop
       # linuxKernel.packages.${kernel.version}.system76-power
       # linuxKernel.packages.${kernel.version}.system76

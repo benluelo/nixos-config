@@ -139,11 +139,32 @@
         ]
       },
       "locked": {
-        "lastModified": 1706981411,
-        "narHash": "sha256-cLbLPTL1CDmETVh4p0nQtvoF+FSEjsnJTFpTxhXywhQ=",
+        "lastModified": 1720042825,
+        "narHash": "sha256-A0vrUB6x82/jvf17qPCpxaM+ulJnD8YZwH9Ci0BsAzE=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "652fda4ca6dafeb090943422c34ae9145787af37",
+        "rev": "e1391fb22e18a36f57e6999c7a9f966dc80ac073",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "ref": "release-24.05",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "home-manager-23-11": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1719827415,
+        "narHash": "sha256-pvh+1hStXXAZf0sZ1xIJbWGx4u+OGBC1rVx6Wsw0fBw=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "f2e3c19867262dbe84fdfab42467fc8dd83a2005",
         "type": "github"
       },
       "original": {
@@ -276,6 +297,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-23-11": {
+      "locked": {
+        "lastModified": 1720535198,
+        "narHash": "sha256-zwVvxrdIzralnSbcpghA92tWu2DV2lwv89xZc8MTrbg=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "205fd4226592cc83fd4c0885a3e4c9c400efabb5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "release-23.11",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-fmt": {
       "inputs": {
         "fenix": "fenix",
@@ -329,16 +366,16 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1707875046,
-        "narHash": "sha256-efFqz8rcgO0CJjGQDM4M/x8tKw9OzcKPrb3YADk6ND0=",
+        "lastModified": 1725666269,
+        "narHash": "sha256-7c3HmYKDQJwp199g/B3G1Nj/7lVdu9nUtuYykEYm2gc=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "35ff4e6b60b631bbf28ba1e5fe7ce0aff281b431",
+        "rev": "a182b824c1cc060a4b78a751163bf33bb04be22f",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "release-23.11",
+        "ref": "release-24.05",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -347,12 +384,14 @@
       "inputs": {
         "helix": "helix",
         "home-manager": "home-manager",
+        "home-manager-23-11": "home-manager-23-11",
         "homebrew-bundle": "homebrew-bundle",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
         "nixpkgs": "nixpkgs_4",
+        "nixpkgs-23-11": "nixpkgs-23-11",
         "nixpkgs-fmt": "nixpkgs-fmt"
       }
     },

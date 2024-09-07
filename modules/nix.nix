@@ -1,18 +1,17 @@
 { pkgs, ... }:
 {
   nix = {
-    # nixbuild
-    distributedBuilds = true;
-    buildMachines = [
-      {
-        hostName = "eu.nixbuild.net";
-        system = "x86_64-linux";
-        maxJobs = 100;
-        supportedFeatures = [ "benchmark" "big-parallel" ];
-      }
-
-    ];
-    package = pkgs.nixUnstable;
+    # # nixbuild
+    # distributedbuilds = true;
+    # buildmachines = [
+    #   {
+    #     hostname = "eu.nixbuild.net";
+    #     system = "x86_64-linux";
+    #     maxjobs = 100;
+    #     supportedfeatures = [ "benchmark" "big-parallel" ];
+    #   }
+    # ];
+    package = pkgs.nixVersions.latest;
     settings = {
       trusted-users = [ "root" "ben" ];
       experimental-features = [ "nix-command" "flakes" ];
