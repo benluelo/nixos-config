@@ -15,20 +15,26 @@
       ./orbstack.nix
     ];
 
-  users.users.super-ben = {
-    uid = 501;
-    extraGroups = [ "wheel" ];
+  # users.users.super-ben = {
+  #   uid = 501;
+  #   extraGroups = [ "wheel" ];
 
-    # simulate isNormalUser, but with an arbitrary UID
-    isSystemUser = true;
-    group = "users";
-    createHome = true;
-    home = "/home/ben";
-    homeMode = "700";
-    useDefaultShell = true;
+  #   # simulate isNormalUser, but with an arbitrary UID
+  #   isSystemUser = true;
+  #   group = "users";
+  #   createHome = true;
+  #   home = "/home/ben";
+  #   homeMode = "700";
+  #   useDefaultShell = true;
+  # };
+
+  nixpkgs.config = {
+    allowUnfree = true;
   };
 
   security.sudo.wheelNeedsPassword = false;
+
+  virtualisation.docker.enable = true;
 
   # This being `true` leads to a few nasty bugs, change at your own risk!
   users.mutableUsers = false;

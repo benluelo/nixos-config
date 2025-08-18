@@ -14,7 +14,7 @@
       # signal-desktop-beta
       # firefox
       # discord
-      # _1password-gui
+      _1password
       # easyeffects
       # spotify
       # element-desktop

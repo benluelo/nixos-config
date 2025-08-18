@@ -11,7 +11,7 @@
     #     supportedfeatures = [ "benchmark" "big-parallel" ];
     #   }
     # ];
-    package = pkgs.nixVersions.latest;
+    package = pkgs.nixVersions.nix_2_18;
     settings = {
       trusted-users = [ "root" "ben" ];
       experimental-features = [ "nix-command" "flakes" ];
