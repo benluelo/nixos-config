@@ -42,6 +42,8 @@
   time.timeZone = "Europe/Lisbon";
 
   networking = {
+    # nameservers = [ "1.1.1.1" "9.9.9.9" ];
+    # interfaces.eth0.mtu = 1400;
     dhcpcd.enable = false;
     useDHCP = false;
     useHostResolvConf = false;
@@ -55,7 +57,10 @@
         DHCP = "ipv4";
         IPv6AcceptRA = true;
       };
-      linkConfig.RequiredForOnline = "routable";
+      linkConfig = {
+        RequiredForOnline = "routable";
+        MTUBytes = "1400";
+      };
     };
   };
 
